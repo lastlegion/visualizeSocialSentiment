@@ -74,16 +74,21 @@ var server = app.listen(app.get('port'), function() {
   console.log("Running");
 
   console.log(sentiyapa)
-
-  t.on("tweet", function(tweet){
-    
-    //console.log(tweet)
-    //console.log(tweet.text);
-    
-    var tweetText = tweet.text;
-    console.log(tweetText+ " "+s.score(tweetText));
+  io.on("connection", function (socket){
+        console.log("new connection")
+      t.on("tweet", function(tweet){
         
+        //console.log(tweet)
+        //console.log(tweet.text);
+        
+        var tweetText = tweet.text;
+        var score = s.score(tweetText);
+        console.log(tweetText+ " "+s.score(tweetText));
+        socket.emit("tweet", {tweet: tweetText, score:score})
+      });
   });
+
 });
+
 
 var io = require("socket.io")(server);
