@@ -9,6 +9,7 @@ block content
     script(src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.13/d3.min.js")
     script.
         var tweets= [];
+        var colors = ["#2dae05", "#5ee833","#ffffff", "#b30a0a","#ec5e5e"]
         var socket = io.connect("http://localhost");
         var svgContainers = d3.select("#main")
         .append("svg")
@@ -27,13 +28,37 @@ block content
                 .append("circle")
             
             var circleAttributes = circle
-   
-                .attr("r",30)
-                .style("fill", "green")
-                .attr("cy",function(d,i){
-                    return i*100;
+                .attr("id", circle)
+                .attr("r",function(d){
+                    
+                    return d.tweet.length/5;
                 })
-                .attr("cx", 300)
+                .style("fill", function(d){
+                    d=d.score
+                    if(d<0.01){
+                        console.log("here")
+                        if(d<0.1)
+                            return colors[0];
+                        else 
+                            return colors[1];
+                    } else if(d>0.01){
+                        if(d>0.1){
+                            return colors[4];
+                        } else {
+                            return colors[3];
+                        }
+                    } else {
+                        return colors[2];
+                    }
+                })
+                .attr("cy",function(d,i){
+                    return i*10;
+                })
+                .attr("cx", function(d){
+                    
+                    return ((d.score*350)+250)
+                })
+                .attr("fill-opacity", 0.5)
             /*
             var x = d3.select("#main").selectAll("p")
             .data(tweets)

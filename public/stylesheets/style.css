@@ -1,8 +1,13 @@
 body {
   padding: 50px;
+  background: #333;
+  color: #ccc;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+#circle{
+    opacity: 0.6;
 }
